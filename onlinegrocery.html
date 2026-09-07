@@ -1,0 +1,919 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FreshCart - Online Grocery</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7f5;
+            color: #222;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        nav {
+            height: 70px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2e9d50;
+        }
+
+        .logo span {
+            color: #222;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        nav ul li a:hover {
+            color: #2e9d50;
+        }
+
+        .cart-btn {
+            background: #2e9d50;
+            color: white;
+            border: none;
+            padding: 11px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            min-height: 420px;
+            padding: 70px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #e8f8eb, #ffffff);
+        }
+
+        .hero-text {
+            max-width: 600px;
+        }
+
+        .hero-text h1 {
+            font-size: 52px;
+            margin-bottom: 18px;
+        }
+
+        .hero-text h1 span {
+            color: #2e9d50;
+        }
+
+        .hero-text p {
+            color: #666;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .search-box {
+            background: white;
+            max-width: 550px;
+            display: flex;
+            padding: 7px;
+            border-radius: 35px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 14px 18px;
+            font-size: 15px;
+        }
+
+        .search-box button {
+            background: #2e9d50;
+            color: white;
+            border: none;
+            padding: 13px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        .hero-image {
+            font-size: 150px;
+        }
+
+        /* ================= SECTION ================= */
+
+        section {
+            padding: 55px 7%;
+        }
+
+        .section-title {
+            font-size: 30px;
+            margin-bottom: 25px;
+        }
+
+        /* ================= CATEGORIES ================= */
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 20px;
+        }
+
+        .category {
+            background: white;
+            padding: 22px 10px;
+            text-align: center;
+            border-radius: 15px;
+            cursor: pointer;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+            transition: 0.3s;
+        }
+
+        .category:hover {
+            transform: translateY(-5px);
+        }
+
+        .category-icon {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+
+        .category p {
+            font-weight: bold;
+        }
+
+        /* ================= PRODUCTS ================= */
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .product {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            transition: 0.3s;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            height: 180px;
+            background: #eef8ef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 85px;
+        }
+
+        .product-info {
+            padding: 18px;
+        }
+
+        .product-info h3 {
+            margin-bottom: 7px;
+        }
+
+        .product-info p {
+            color: #777;
+            margin-bottom: 8px;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2e9d50;
+        }
+
+        .old-price {
+            color: #999;
+            text-decoration: line-through;
+            font-size: 14px;
+            margin-left: 5px;
+        }
+
+        .add-btn {
+            width: 100%;
+            margin-top: 15px;
+            padding: 11px;
+            background: #2e9d50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .add-btn:hover {
+            background: #247d3f;
+        }
+
+        /* ================= OFFERS ================= */
+
+        .offers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .offer {
+            padding: 30px;
+            border-radius: 18px;
+            background: #2e9d50;
+            color: white;
+        }
+
+        .offer:nth-child(2) {
+            background: #f3a623;
+        }
+
+        .offer:nth-child(3) {
+            background: #e85b45;
+        }
+
+        .offer h3 {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        .offer p {
+            margin-bottom: 18px;
+        }
+
+        .offer button {
+            border: none;
+            padding: 10px 18px;
+            border-radius: 20px;
+            background: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* ================= CART POPUP ================= */
+
+        .cart-popup {
+            display: none;
+            position: fixed;
+            right: 25px;
+            top: 80px;
+            width: 320px;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            z-index: 200;
+        }
+
+        .cart-popup h2 {
+            margin-bottom: 15px;
+        }
+
+        .checkout {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border: none;
+            background: #2e9d50;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #222;
+            color: white;
+            text-align: center;
+            padding: 40px 7%;
+        }
+
+        footer h2 {
+            color: #2e9d50;
+            margin-bottom: 10px;
+        }
+
+        footer p {
+            color: #bbb;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media(max-width: 768px) {
+
+            nav ul {
+                display: none;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
+            }
+
+            .hero-text h1 {
+                font-size: 38px;
+            }
+
+            .hero-image {
+                font-size: 100px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav>
+
+        <div class="logo">
+            Fresh<span>Cart</span> 🛒
+        </div>
+
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#categories">Categories</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#offers">Offers</a></li>
+        </ul>
+
+        <button class="cart-btn" onclick="showCart()">
+            🛒 Cart (<span id="cartCount">0</span>)
+        </button>
+
+    </nav>
+
+
+    <!-- ================= HERO ================= -->
+
+    <div class="hero">
+
+        <div class="hero-text">
+
+            <h1>
+                Fresh Groceries
+                <br>
+                <span>Delivered Fast.</span>
+            </h1>
+
+            <p>
+                Shop fresh fruits, vegetables, dairy products,
+                snacks and daily essentials from the comfort
+                of your home.
+            </p>
+
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search for groceries..."
+                >
+
+                <button onclick="searchProduct()">
+                    🔍 Search
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="hero-image">
+            🛒🥦
+        </div>
+
+    </div>
+
+
+    <!-- ================= CATEGORIES ================= -->
+
+    <section id="categories">
+
+        <h2 class="section-title">
+            🛍️ Shop by Category
+        </h2>
+
+        <div class="categories">
+
+            <div class="category">
+                <div class="category-icon">🍎</div>
+                <p>Fruits</p>
+            </div>
+
+            <div class="category">
+                <div class="category-icon">🥦</div>
+                <p>Vegetables</p>
+            </div>
+
+            <div class="category">
+                <div class="category-icon">🥛</div>
+                <p>Dairy</p>
+            </div>
+
+            <div class="category">
+                <div class="category-icon">🍞</div>
+                <p>Bakery</p>
+            </div>
+
+            <div class="category">
+                <div class="category-icon">🍪</div>
+                <p>Snacks</p>
+            </div>
+
+            <div class="category">
+                <div class="category-icon">🥤</div>
+                <p>Beverages</p>
+            </div>
+
+            <div class="category">
+                <div class="category-icon">🧴</div>
+                <p>Personal Care</p>
+            </div>
+
+            <div class="category">
+                <div class="category-icon">🧹</div>
+                <p>Household</p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= PRODUCTS ================= -->
+
+    <section id="products">
+
+        <h2 class="section-title">
+            ⭐ Popular Products
+        </h2>
+
+        <div class="products">
+
+            <!-- Product 1 -->
+
+            <div class="product">
+
+                <div class="product-image">
+                    🍎
+                </div>
+
+                <div class="product-info">
+
+                    <h3>Fresh Apples</h3>
+
+                    <p>1 Kg</p>
+
+                    <span class="price">₹120</span>
+                    <span class="old-price">₹150</span>
+
+                    <button
+                        class="add-btn"
+                        onclick="addToCart('Fresh Apples',120)"
+                    >
+                        Add to Cart
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- Product 2 -->
+
+            <div class="product">
+
+                <div class="product-image">
+                    🥦
+                </div>
+
+                <div class="product-info">
+
+                    <h3>Fresh Broccoli</h3>
+
+                    <p>500 g</p>
+
+                    <span class="price">₹60</span>
+                    <span class="old-price">₹75</span>
+
+                    <button
+                        class="add-btn"
+                        onclick="addToCart('Fresh Broccoli',60)"
+                    >
+                        Add to Cart
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- Product 3 -->
+
+            <div class="product">
+
+                <div class="product-image">
+                    🥛
+                </div>
+
+                <div class="product-info">
+
+                    <h3>Fresh Milk</h3>
+
+                    <p>1 Litre</p>
+
+                    <span class="price">₹58</span>
+                    <span class="old-price">₹65</span>
+
+                    <button
+                        class="add-btn"
+                        onclick="addToCart('Fresh Milk',58)"
+                    >
+                        Add to Cart
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- Product 4 -->
+
+            <div class="product">
+
+                <div class="product-image">
+                    🍞
+                </div>
+
+                <div class="product-info">
+
+                    <h3>Brown Bread</h3>
+
+                    <p>400 g</p>
+
+                    <span class="price">₹45</span>
+                    <span class="old-price">₹55</span>
+
+                    <button
+                        class="add-btn"
+                        onclick="addToCart('Brown Bread',45)"
+                    >
+                        Add to Cart
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- Product 5 -->
+
+            <div class="product">
+
+                <div class="product-image">
+                    🍌
+                </div>
+
+                <div class="product-info">
+
+                    <h3>Fresh Bananas</h3>
+
+                    <p>1 Dozen</p>
+
+                    <span class="price">₹50</span>
+                    <span class="old-price">₹60</span>
+
+                    <button
+                        class="add-btn"
+                        onclick="addToCart('Fresh Bananas',50)"
+                    >
+                        Add to Cart
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- Product 6 -->
+
+            <div class="product">
+
+                <div class="product-image">
+                    🥚
+                </div>
+
+                <div class="product-info">
+
+                    <h3>Farm Eggs</h3>
+
+                    <p>12 Pieces</p>
+
+                    <span class="price">₹90</span>
+                    <span class="old-price">₹110</span>
+
+                    <button
+                        class="add-btn"
+                        onclick="addToCart('Farm Eggs',90)"
+                    >
+                        Add to Cart
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= OFFERS ================= -->
+
+    <section id="offers">
+
+        <h2 class="section-title">
+            🎁 Special Offers
+        </h2>
+
+        <div class="offers">
+
+            <div class="offer">
+
+                <h3>20% OFF</h3>
+
+                <p>
+                    Get 20% discount on your first grocery order.
+                </p>
+
+                <button onclick="claimOffer()">
+                    Shop Now
+                </button>
+
+            </div>
+
+
+            <div class="offer">
+
+                <h3>FREE DELIVERY</h3>
+
+                <p>
+                    Free delivery on orders above ₹499.
+                </p>
+
+                <button onclick="claimOffer()">
+                    Shop Now
+                </button>
+
+            </div>
+
+
+            <div class="offer">
+
+                <h3>₹100 OFF</h3>
+
+                <p>
+                    Use coupon code FRESH100 and save ₹100.
+                </p>
+
+                <button onclick="claimOffer()">
+                    Shop Now
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= CART ================= -->
+
+    <div class="cart-popup" id="cartPopup">
+
+        <h2>🛒 Your Cart</h2>
+
+        <div id="cartItems">
+            Your cart is empty.
+        </div>
+
+        <h3 id="cartTotal">
+            Total: ₹0
+        </h3>
+
+        <button
+            class="checkout"
+            onclick="checkout()"
+        >
+            Proceed to Checkout
+        </button>
+
+    </div>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <h2>FreshCart 🛒</h2>
+
+        <p>
+            Fresh groceries delivered to your doorstep.
+        </p>
+
+        <br>
+
+        <p>
+            © 2026 FreshCart. All Rights Reserved.
+        </p>
+
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        let cart = [];
+        let total = 0;
+
+
+        /* ADD PRODUCT TO CART */
+
+        function addToCart(name, price) {
+
+            cart.push({
+                name: name,
+                price: price
+            });
+
+            total += price;
+
+            document.getElementById("cartCount").innerText =
+                cart.length;
+
+            updateCart();
+
+            alert(name + " added to cart! 🛒");
+        }
+
+
+        /* UPDATE CART */
+
+        function updateCart() {
+
+            let cartItems =
+                document.getElementById("cartItems");
+
+            if (cart.length === 0) {
+
+                cartItems.innerHTML =
+                    "Your cart is empty.";
+
+            } else {
+
+                cartItems.innerHTML = "";
+
+                cart.forEach(function(item, index) {
+
+                    cartItems.innerHTML +=
+                        "<p>" +
+                        (index + 1) +
+                        ". " +
+                        item.name +
+                        " - ₹" +
+                        item.price +
+                        "</p>";
+
+                });
+
+            }
+
+            document.getElementById("cartTotal").innerText =
+                "Total: ₹" + total;
+        }
+
+
+        /* SHOW CART */
+
+        function showCart() {
+
+            let popup =
+                document.getElementById("cartPopup");
+
+            if (popup.style.display === "block") {
+
+                popup.style.display = "none";
+
+            } else {
+
+                popup.style.display = "block";
+
+            }
+
+        }
+
+
+        /* SEARCH */
+
+        function searchProduct() {
+
+            let search =
+                document.getElementById("searchInput").value;
+
+            if (search.trim() === "") {
+
+                alert("Please enter a product name 🔍");
+
+            } else {
+
+                alert(
+                    "Searching for: " + search
+                );
+
+            }
+
+        }
+
+
+        /* OFFER */
+
+        function claimOffer() {
+
+            alert(
+                "Offer applied successfully! 🎉"
+            );
+
+        }
+
+
+        /* CHECKOUT */
+
+        function checkout() {
+
+            if (cart.length === 0) {
+
+                alert(
+                    "Your cart is empty! Please add some products."
+                );
+
+            } else {
+
+                alert(
+                    "Order placed successfully! 🎉\n" +
+                    "Total Amount: ₹" + total
+                );
+
+            }
+
+        }
+
+    </script>
+
+</body>
+</html>
+```
